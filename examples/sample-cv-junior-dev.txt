@@ -1,0 +1,38 @@
+KURGU ADAY
+Yazılım Geliştirici (Fotoğraf: Vesikalık eklendi)
+
+Kişisel Bilgiler
+Doğum Tarihi: 01.01.2000
+Medeni Hal: Bekar
+Askerlik Durumu: Tecilli (2028)
+Ehliyet: B Sınıfı
+TC Kimlik No: 12345678901
+E-posta: kurgu.aday@example.com
+Telefon: +90 555 000 00 00
+Adres: Örnek Mah. Deneme Cad. No: 10 Kat: 2 Daire: 4 Kadıköy/İstanbul
+LinkedIn: https://linkedin.com/in/kurgu-aday-ornek
+
+Kariyer Hedefi
+Kendimi sürekli geliştirebileceğim, dinamik ve kurumsal bir firmada takım çalışmasına yatkın, sorumluluk sahibi ve stres altında çalışabilen bir yazılım mühendisi olarak görev almak istiyorum.
+
+Deneyim
+Örnek Yazılım A.Ş. — Junior Software Developer (2024 - Günümüz)
+- Şirket içi web projelerinde görev aldım.
+- Frontend ve backend geliştirmelerine destek verdim.
+- Hataları çözdüm ve toplantılara katıldım.
+
+Deneme Bilişim Ltd. — Yazılım Stajyeri (Yaz 2023)
+- Yazılım ekibine yardımcı oldum.
+- Veritabanı tablolarını inceledim.
+
+Eğitim
+Örnek Üniversitesi — Bilgisayar Mühendisliği (2019 - 2023)
+
+Yetenekler
+MS Office (Word, Excel, PowerPoint - Çok İyi), HTML, CSS, JavaScript, React, Node.js, Python, Java, C++, Docker, Kubernetes, Yapay Zeka, Photoshop
+
+Yabancı Dil
+İngilizce: Orta-İyi
+
+Referanslar
+İstenildiğinde sunulacaktır.

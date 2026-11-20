@@ -1,0 +1,128 @@
+{
+  "result": {
+    "overallScore": 38,
+    "verdict": "Bu CV bir yazılım geliştiriciyi değil, 2009 yılından kalma bir internet kafe başvurusunu andırıyor.",
+    "firstSixSeconds": {
+      "whatRecruiterSees": [
+        "Doğum tarihi, medeni hal, askerlik, ehliyet ve TC kimlik no gibi tamamen gereksiz kişisel bilgiler",
+        "Üst sıralarda parlayan 'MS Office (Word, Excel, PowerPoint - Çok İyi)' satırı",
+        "Hiçbir sayısal başarı içermeyen jenerik görev tanımları"
+      ],
+      "whatRecruiterMisses": [
+        "Adayın gerçekte hangi teknolojiyle ne inşa ettiği",
+        "Canlı proje, kod örneği veya ölçülebilir mühendislik etkisi",
+        "Pozisyona özel net uzmanlık odağı"
+      ],
+      "summary": "İşe alımcı ilk 6 saniyede adayın mühendislik yetkinliğinden önce nüfus cüzdanı özetini ve MS Office bildiğini okuyor. Gerçek proje etkisi gizli kaldığı için CV hızla elenme riski taşıyor."
+    },
+    "sectionCritiques": [
+      {
+        "section": "Kariyer Hedefi",
+        "quote": "Kendimi sürekli geliştirebileceğim, dinamik ve kurumsal bir firmada takım çalışmasına yatkın, sorumluluk sahibi ve stres altında çalışabilen bir yazılım mühendisi olarak görev almak istiyorum.",
+        "issue": "Tamamen içi boş, herkesin kopyalayıp yapıştırdığı klişelerden oluşan ve adayı diğer 500 başvurudan ayırmayan bir özet.",
+        "wittyComment": "Bu cümle 2011'den beri Türkiye'deki her üç CV'den ikisinde kopyala-yapıştır geziyor; artık miras hukukuyla korunması lazım.",
+        "concreteFix": "Kariyer hedefi yerine uzmanlaştığınız teknolojiyi, deneyim yılınızı ve ürettiğiniz somut bir çıktıyı 2 cümlede özetleyin.",
+        "beforeAfter": {
+          "before": "Kendimi sürekli geliştirebileceğim, dinamik ve kurumsal bir firmada takım çalışmasına yatkın bir yazılım mühendisi olarak görev almak istiyorum.",
+          "after": "React, TypeScript ve Node.js ile yüksek trafikli web uygulamaları geliştiren 2 yıl deneyimli yazılım geliştirici. Mevcut rolümde checkout akışını yenileyerek sayfa yükleme süresini %35 azalttım."
+        }
+      },
+      {
+        "section": "Deneyim",
+        "quote": "Şirket içi web projelerinde görev aldım.",
+        "issue": "Hangi teknolojiyi kullandığınız, ne kadar sorumluluk aldığınız ve ortaya nasıl bir sonuç çıktığı tamamen belirsiz.",
+        "wittyComment": "'Görev aldım' demek, sinemada koltuğa oturdum demekle aynı bilgi değerine sahip.",
+        "concreteFix": "Her maddeyi 'Ne yaptım + Hangi araçla + Nasıl bir ölçülebilir sonuç çıktı' (XYZ) kalıbıyla yeniden yazın.",
+        "beforeAfter": {
+          "before": "Şirket içi web projelerinde görev aldım.",
+          "after": "React ve TypeScript kullanarak 120 çalışanın kullandığı iç onay portalını geliştirdim; manuel e-posta onay süreçlerini %60 hızlandırdım."
+        }
+      },
+      {
+        "section": "Yetenekler",
+        "quote": "MS Office (Word, Excel, PowerPoint - Çok İyi)",
+        "issue": "Bir yazılım geliştirici CV'sinde MS Office yazmak, teknik derinlik algısını zayıflatır ve değerli alanı boşa harcar.",
+        "wittyComment": "Bilgisayar mühendisi olup Word bildiğini yazmak, aşçı olup bıçak tutabildiğini CV'ye eklemek gibi.",
+        "concreteFix": "MS Office satırını tamamen silin; yetenekleri Frontend, Backend ve Araçlar şeklinde kategorize edin ve gerçekten hakim olduklarınızı bırakın.",
+        "beforeAfter": {
+          "before": "MS Office (Word, Excel, PowerPoint - Çok İyi), HTML, CSS, JavaScript, React, Node.js, Python, Java, C++, Docker, Kubernetes, Yapay Zeka",
+          "after": "Frontend: TypeScript, React, Next.js, Tailwind CSS | Backend: Node.js, PostgreSQL, REST API | Araçlar: Git, Docker, Vitest"
+        }
+      }
+    ],
+    "clicheDetector": [
+      {
+        "phrase": "takım çalışmasına yatkın",
+        "count": 1,
+        "suggestion": "Ekip içinde yürüttüğünüz gerçek bir iş birliğini (örn. '3 kişilik ekiple code review süreci kurdum') anlatın."
+      },
+      {
+        "phrase": "stres altında çalışabilen",
+        "count": 1,
+        "suggestion": "Sıkı bir teslim tarihini veya kritik bir canlı hatayı nasıl çözdüğünüzü somut örnekle gösterin."
+      },
+      {
+        "phrase": "MS Office",
+        "count": 1,
+        "suggestion": "Yazılım pozisyonları için tamamen kaldırın."
+      }
+    ],
+    "turkeySpecificWarnings": [
+      {
+        "category": "Kişisel Bilgiler",
+        "warning": "Doğum tarihi, medeni hal, askerlik durumu, ehliyet, TC kimlik numarası ve açık adres paylaşılmış.",
+        "recommendation": "KVKK ve modern işe alım standartları gereği bunların tamamını CV'den çıkarın; yalnızca şehir, e-posta, telefon ve LinkedIn/GitHub linki yeterlidir."
+      },
+      {
+        "category": "Format",
+        "warning": "Vesikalık fotoğraf ibaresi yer alıyor.",
+        "recommendation": "Özellikle teknoloji ve uluslararası şirket başvurularında fotoğraf eklemeyin."
+      },
+      {
+        "category": "Referans",
+        "warning": "'İstenildiğinde sunulacaktır' satırı boşa yer kaplıyor.",
+        "recommendation": "Referans bölümünü tamamen silin; şirket ihtiyaç duyarsa mülakat aşamasında zaten isteyecektir."
+      }
+    ],
+    "topThreePriorities": [
+      {
+        "title": "Nüfus cüzdanı bilgilerini ve fotoğrafı kaldırın",
+        "impact": "high",
+        "action": "Doğum tarihi, medeni hal, askerlik, ehliyet, TC no, açık adres ve referans satırını tek seferde silin."
+      },
+      {
+        "title": "Deneyim maddelerine metrik ekleyin",
+        "impact": "high",
+        "action": "Her iş deneyimi altına yaptığınız tekil katkıyı sayısal sonuçla (performans, kullanıcı sayısı, hız artışı) birlikte 3-4 madde halinde yazın."
+      },
+      {
+        "title": "Yetenek listesini gerçekçi ve odaklı hale getirin",
+        "impact": "medium",
+        "action": "MS Office'i ve sadece adını duyduğunuz teknolojileri çıkarın; gerçekten mülakatta soru yanıtlayabileceğiniz araçları gruplayın."
+      }
+    ],
+    "jobMatch": null,
+    "shareableCard": {
+      "score": 38,
+      "funniestLine": "CV'de koddan çok nüfus bilgisi ve MS Office var; işe alımcı ilk 6 saniyede çayını tazelemeye gitti."
+    }
+  },
+  "meta": {
+    "tone": "brutal",
+    "sector": "software",
+    "provider": "gemini",
+    "model": "gemini-2.5-flash",
+    "wordCount": 146,
+    "maskingStats": {
+      "emails": 1,
+      "phones": 1,
+      "tcKimlik": 1,
+      "ibans": 0,
+      "urls": 1,
+      "addresses": 1,
+      "total": 5
+    },
+    "verifiedQuotesCount": 3,
+    "filteredHallucinatedQuotesCount": 0
+  }
+}
