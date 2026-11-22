@@ -5,7 +5,11 @@ export { extractJsonFromLLMResponse } from './json-extract';
 export { OpenAIProvider } from './openai';
 export {
   DEFAULT_MODELS,
+  extractUpstreamErrorMessage,
   LLMError,
+  mapUpstreamError,
+  sanitizeUpstreamMessage,
+  type LLMErrorOptions,
   type LLMGenerateRequest,
   type LLMGenerateResponse,
   type LLMProvider,

@@ -1,7 +1,9 @@
 import {
   DEFAULT_MODELS,
+  extractUpstreamErrorMessage,
   LLMError,
   mapUpstreamError,
+  sanitizeUpstreamMessage,
   type LLMGenerateRequest,
   type LLMGenerateResponse,
   type LLMProvider,
@@ -25,32 +27,51 @@ export class AnthropicProvider implements LLMProvider {
   }
 
   public async generateJSON(request: LLMGenerateRequest): Promise<LLMGenerateResponse> {
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': this.apiKey,
-        'anthropic-version': '2023-06-01',
-      },
-      body: JSON.stringify({
-        model: this.model,
-        max_tokens: request.maxTokens ?? 4096,
-        temperature: request.temperature ?? 0.7,
-        system: request.systemPrompt,
-        messages: [{ role: 'user', content: request.userPrompt }],
-      }),
-      signal: AbortSignal.timeout(45_000),
-    });
+    let response: Response;
+    try {
+      response = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': this.apiKey,
+          'anthropic-version': '2023-06-01',
+        },
+        body: JSON.stringify({
+          model: this.model,
+          max_tokens: request.maxTokens ?? 4096,
+          temperature: request.temperature ?? 0.7,
+          system: request.systemPrompt,
+          messages: [{ role: 'user', content: request.userPrompt }],
+        }),
+        signal: AbortSignal.timeout(45_000),
+      });
+    } catch (error) {
+      const msg = error instanceof Error ? sanitizeUpstreamMessage(error.message) : 'Network error';
+      throw new LLMError(
+        'Yapay zeka servisine şu anda ulaşılamıyor. Lütfen birkaç saniye sonra tekrar deneyin.',
+        this.name,
+        { statusCode: 502, model: this.model, upstreamMessage: msg }
+      );
+    }
 
     if (!response.ok) {
-      throw mapUpstreamError(this.name, response.status);
+      const upstreamMessage = await extractUpstreamErrorMessage(response);
+      throw mapUpstreamError(this.name, response.status, {
+        model: this.model,
+        upstreamMessage,
+      });
     }
 
     const data = (await response.json()) as AnthropicResponseBody;
     const text = data.content?.find((block) => block.type === 'text')?.text;
 
     if (!text) {
-      throw new LLMError('Anthropic boş yanıt döndürdü. Lütfen tekrar deneyin.', this.name, 502);
+      throw new LLMError('Anthropic boş yanıt döndürdü. Lütfen tekrar deneyin.', this.name, {
+        statusCode: 502,
+        model: this.model,
+        upstreamStatus: response.status,
+        upstreamMessage: 'Empty text block in response',
+      });
     }
 
     return {

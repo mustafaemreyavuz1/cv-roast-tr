@@ -61,7 +61,11 @@ export async function runRoastAnalysis(input: RunRoastAnalysisInput): Promise<Ro
     throw new LLMError(
       'Yapay zeka yanıtı beklenen JSON formatında okunamadı. Lütfen tekrar deneyin.',
       input.provider.name,
-      502
+      {
+        statusCode: 502,
+        model: input.provider.model,
+        upstreamMessage: 'Invalid JSON syntax in model response',
+      }
     );
   }
 
@@ -70,7 +74,11 @@ export async function runRoastAnalysis(input: RunRoastAnalysisInput): Promise<Ro
     throw new LLMError(
       'Yapay zeka yanıtı şema doğrulamasından geçemedi. Lütfen tekrar deneyin.',
       input.provider.name,
-      502
+      {
+        statusCode: 502,
+        model: input.provider.model,
+        upstreamMessage: 'Model JSON response failed Zod schema validation',
+      }
     );
   }
 

@@ -1,7 +1,9 @@
 import {
   DEFAULT_MODELS,
+  extractUpstreamErrorMessage,
   LLMError,
   mapUpstreamError,
+  sanitizeUpstreamMessage,
   type LLMGenerateRequest,
   type LLMGenerateResponse,
   type LLMProvider,
@@ -32,40 +34,59 @@ export class GeminiProvider implements LLMProvider {
       this.model
     )}:generateContent`;
 
-    const response = await fetch(endpoint, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-goog-api-key': this.apiKey,
-      },
-      body: JSON.stringify({
-        system_instruction: {
-          parts: [{ text: request.systemPrompt }],
+    let response: Response;
+    try {
+      response = await fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-goog-api-key': this.apiKey,
         },
-        contents: [
-          {
-            role: 'user',
-            parts: [{ text: request.userPrompt }],
+        body: JSON.stringify({
+          system_instruction: {
+            parts: [{ text: request.systemPrompt }],
           },
-        ],
-        generationConfig: {
-          temperature: request.temperature ?? 0.7,
-          maxOutputTokens: request.maxTokens ?? 4096,
-          responseMimeType: 'application/json',
-        },
-      }),
-      signal: AbortSignal.timeout(45_000),
-    });
+          contents: [
+            {
+              role: 'user',
+              parts: [{ text: request.userPrompt }],
+            },
+          ],
+          generationConfig: {
+            temperature: request.temperature ?? 0.7,
+            maxOutputTokens: request.maxTokens ?? 4096,
+            responseMimeType: 'application/json',
+          },
+        }),
+        signal: AbortSignal.timeout(45_000),
+      });
+    } catch (error) {
+      const msg = error instanceof Error ? sanitizeUpstreamMessage(error.message) : 'Network error';
+      throw new LLMError(
+        'Yapay zeka servisine şu anda ulaşılamıyor. Lütfen birkaç saniye sonra tekrar deneyin.',
+        this.name,
+        { statusCode: 502, model: this.model, upstreamMessage: msg }
+      );
+    }
 
     if (!response.ok) {
-      throw mapUpstreamError(this.name, response.status);
+      const upstreamMessage = await extractUpstreamErrorMessage(response);
+      throw mapUpstreamError(this.name, response.status, {
+        model: this.model,
+        upstreamMessage,
+      });
     }
 
     const data = (await response.json()) as GeminiResponseBody;
     const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
 
     if (!text) {
-      throw new LLMError('Gemini boş yanıt döndürdü. Lütfen tekrar deneyin.', this.name, 502);
+      throw new LLMError('Gemini boş yanıt döndürdü. Lütfen tekrar deneyin.', this.name, {
+        statusCode: 502,
+        model: this.model,
+        upstreamStatus: response.status,
+        upstreamMessage: 'Empty candidate text in response',
+      });
     }
 
     return {

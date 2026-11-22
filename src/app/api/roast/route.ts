@@ -131,6 +131,14 @@ export async function POST(request: Request): Promise<NextResponse> {
       return NextResponse.json({ error: error.message }, { status: error.statusCode });
     }
     if (error instanceof LLMError) {
+      // Log only safe diagnostics: provider, model, HTTP status, and provider error message.
+      // Never log API keys, CV content, or prompts.
+      console.error('[api/roast] LLM provider error', {
+        provider: error.provider,
+        model: error.model ?? 'unknown',
+        httpStatus: error.upstreamStatus ?? error.statusCode,
+        providerMessage: error.upstreamMessage ?? error.message,
+      });
       return NextResponse.json({ error: error.message }, { status: error.statusCode });
     }
     // Never log request payload, CV content, or API keys
