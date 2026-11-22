@@ -53,11 +53,81 @@ export class LLMError extends Error {
   }
 }
 
+export const DEFAULT_LLM_TIMEOUT_MS = 45_000;
+
+export const GEMINI_FALLBACK_CHAIN = [
+  'gemini-3.5-flash',
+  'gemini-3.1-flash-lite',
+  'gemini-flash-lite-latest',
+] as const;
+
 export const DEFAULT_MODELS: Record<LLMProviderName, string> = {
-  gemini: 'gemini-2.5-flash',
+  gemini: GEMINI_FALLBACK_CHAIN[0],
   openai: 'gpt-4o-mini',
   anthropic: 'claude-3-5-sonnet-latest',
 };
+
+export const PROVIDER_MODEL_OPTIONS: Record<
+  LLMProviderName,
+  Array<{ value: string; label: string }>
+> = {
+  gemini: [
+    { value: '', label: 'Otomatik (önerilen)' },
+    { value: 'gemini-3.5-flash', label: 'gemini-3.5-flash' },
+    { value: 'gemini-3.1-flash-lite', label: 'gemini-3.1-flash-lite' },
+  ],
+  openai: [
+    { value: '', label: 'Otomatik (önerilen)' },
+    { value: 'gpt-4o-mini', label: 'gpt-4o-mini' },
+    { value: 'gpt-4o', label: 'gpt-4o' },
+  ],
+  anthropic: [
+    { value: '', label: 'Otomatik (önerilen)' },
+    { value: 'claude-3-5-sonnet-latest', label: 'claude-3-5-sonnet-latest' },
+    { value: 'claude-3-5-haiku-latest', label: 'claude-3-5-haiku-latest' },
+  ],
+};
+
+export class LLMTimeoutError extends Error {
+  public readonly timeoutMs: number;
+
+  constructor(timeoutMs: number) {
+    super(`Request timed out after ${timeoutMs}ms`);
+    this.name = 'LLMTimeoutError';
+    this.timeoutMs = timeoutMs;
+  }
+}
+
+/**
+ * Wraps fetch with an AbortController-based timeout (default 45 seconds).
+ */
+export async function fetchWithTimeout(
+  url: string,
+  init: RequestInit,
+  timeoutMs = DEFAULT_LLM_TIMEOUT_MS
+): Promise<Response> {
+  const controller = new AbortController();
+  let didTimeout = false;
+
+  const timer = setTimeout(() => {
+    didTimeout = true;
+    controller.abort();
+  }, timeoutMs);
+
+  try {
+    return await fetch(url, {
+      ...init,
+      signal: controller.signal,
+    });
+  } catch (error) {
+    if (didTimeout || (error instanceof Error && error.name === 'AbortError')) {
+      throw new LLMTimeoutError(timeoutMs);
+    }
+    throw error;
+  } finally {
+    clearTimeout(timer);
+  }
+}
 
 const MAX_LOG_MESSAGE_LENGTH = 500;
 

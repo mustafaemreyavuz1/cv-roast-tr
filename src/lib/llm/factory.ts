@@ -7,7 +7,7 @@ import { DEFAULT_MODELS, LLMError, type LLMProvider } from './types';
 export interface ResolveProviderOptions {
   /** Optional provider selected by user (BYOK flow) */
   provider?: LLMProviderName;
-  /** Optional model override */
+  /** Optional model override explicitly chosen by user */
   model?: string;
   /** Optional user-supplied API key used only for the lifetime of this request */
   apiKey?: string;
@@ -43,15 +43,20 @@ export function createLLMProvider(options: ResolveProviderOptions = {}): LLMProv
     );
   }
 
+  const explicitUserModel = options.model?.trim() || undefined;
+
   // Only inherit env LLM_MODEL if the resolved provider matches the env default provider
   const envDefaultProvider = getDefaultProviderName();
   const envModel =
     providerName === envDefaultProvider ? process.env.LLM_MODEL?.trim() || undefined : undefined;
-  const resolvedModel = options.model?.trim() || envModel || DEFAULT_MODELS[providerName];
+  const resolvedModel = explicitUserModel || envModel || DEFAULT_MODELS[providerName];
 
   switch (providerName) {
     case 'gemini':
-      return new GeminiProvider(resolvedKey, resolvedModel);
+      // If user explicitly picked a model, disable fallback chain and only try that model.
+      return new GeminiProvider(resolvedKey, resolvedModel, {
+        enableFallback: !explicitUserModel,
+      });
     case 'openai':
       return new OpenAIProvider(resolvedKey, resolvedModel);
     case 'anthropic':

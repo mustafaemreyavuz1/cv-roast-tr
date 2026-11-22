@@ -65,7 +65,7 @@ Tüm değişkenlerin şablonu `.env.example` dosyasındadır:
 | Değişken | Varsayılan | Açıklama |
 | --- | --- | --- |
 | `LLM_PROVIDER` | `gemini` | Kullanılacak sağlayıcı: `gemini`, `openai` veya `anthropic` |
-| `LLM_MODEL` | Sağlayıcı varsayılanı | Opsiyonel model adı (`gemini-2.5-flash`, `gpt-4o-mini`, `claude-3-5-sonnet-latest`) |
+| `LLM_MODEL` | Sağlayıcı varsayılanı | Opsiyonel model adı (`gemini-3.5-flash`, `gpt-4o-mini`, `claude-3-5-sonnet-latest`) |
 | `GEMINI_API_KEY` | — | Google Gemini API anahtarı |
 | `OPENAI_API_KEY` | — | OpenAI API anahtarı |
 | `ANTHROPIC_API_KEY` | — | Anthropic API anahtarı |

@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import { useRef, useState } from 'react';
 import { SAMPLE_CV_PRESETS } from '@/lib/examples/samples';
+import { PROVIDER_MODEL_OPTIONS } from '@/lib/llm/types';
 import {
   LLM_PROVIDERS,
   PROVIDER_LABELS,
@@ -128,9 +129,10 @@ export function RoastApp() {
       if (byokApiKey.trim()) {
         formData.append('provider', byokProvider);
         formData.append('apiKey', byokApiKey.trim());
-        if (byokModel.trim()) {
-          formData.append('model', byokModel.trim());
-        }
+      }
+
+      if (byokModel.trim()) {
+        formData.append('model', byokModel.trim());
       }
 
       const response = await fetch('/api/roast', {
@@ -471,7 +473,10 @@ export function RoastApp() {
                   <select
                     id="byok-provider"
                     value={byokProvider}
-                    onChange={(e) => setByokProvider(e.target.value as LLMProviderName)}
+                    onChange={(e) => {
+                      setByokProvider(e.target.value as LLMProviderName);
+                      setByokModel('');
+                    }}
                     className="w-full rounded-lg border border-stone-300 bg-white px-3 py-2 text-xs text-stone-900 focus:border-ember-500 focus:outline-none dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-100"
                   >
                     {LLM_PROVIDERS.map((p) => (
@@ -487,16 +492,20 @@ export function RoastApp() {
                     htmlFor="byok-model"
                     className="mb-1 block text-xs font-medium text-stone-700 dark:text-zinc-300"
                   >
-                    Model (Opsiyonel)
+                    Model
                   </label>
-                  <input
+                  <select
                     id="byok-model"
-                    type="text"
                     value={byokModel}
                     onChange={(e) => setByokModel(e.target.value)}
-                    placeholder="Varsayılan model"
-                    className="w-full rounded-lg border border-stone-300 bg-white px-3 py-2 text-xs text-stone-900 placeholder:text-stone-400 focus:border-ember-500 focus:outline-none dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-100"
-                  />
+                    className="w-full rounded-lg border border-stone-300 bg-white px-3 py-2 text-xs text-stone-900 focus:border-ember-500 focus:outline-none dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-100"
+                  >
+                    {PROVIDER_MODEL_OPTIONS[byokProvider].map((option) => (
+                      <option key={option.value || 'auto'} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
                 </div>
 
                 <div>
