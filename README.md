@@ -25,11 +25,16 @@ Klasik ATS araçlarının aksine pohpohlamaz. Türkiye iş piyasasına özgü CV
 
 ---
 
-## 📸 Ekran Görüntüsü
+## 📸 Ekran Görüntüleri
 
-> _Ekran görüntüsü yer tutucusu: Uygulama yerelde çalıştırıldıktan sonra buraya ana ekran ve analiz sonucu görselleri eklenecektir._
->
-> `![CV Roast TR Ekran Görüntüsü](docs/screenshot-placeholder.png)`
+### Ana Ekran
+![CV Roast TR Ana Ekran](docs/screenshot-home.png)
+
+### Örnek Analiz Sonucu (İlk 6 Saniye & Hüküm)
+![CV Roast TR Analiz Sonucu](docs/screenshot-results.png)
+
+### Türkiye'ye Özgü Uyarılar & Paylaşılabilir Roast Kartı
+![CV Roast TR Paylaşılabilir Kart](docs/screenshot-card.png)
 
 ---
 
@@ -42,7 +47,7 @@ Klasik ATS araçlarının aksine pohpohlamaz. Türkiye iş piyasasına özgü CV
 ### Adımlar
 
 ```bash
-git clone https://github.com/<kullanici-adin>/cv-roast-tr.git
+git clone https://github.com/mustafaemreyavuz1/cv-roast-tr.git
 cd cv-roast-tr
 npm install
 cp .env.example .env.local

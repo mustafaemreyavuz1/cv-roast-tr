@@ -13,9 +13,16 @@
 - **Prompt Injection Defense:** Resume and job description blocks are strictly delimited and sanitized.
 - **Shareable PNG Roast Card:** Generated client-side on `<canvas>` with only the score, tone, and an anonymized witty one-liner—no names, contact info, or resume quotes.
 
+## Screenshots
+
+![CV Roast TR Home](docs/screenshot-home.png)
+![CV Roast TR Analysis Results](docs/screenshot-results.png)
+
 ## Quick Start
 
 ```bash
+git clone https://github.com/mustafaemreyavuz1/cv-roast-tr.git
+cd cv-roast-tr
 npm install
 cp .env.example .env.local
 # Add GEMINI_API_KEY (or OPENAI_API_KEY / ANTHROPIC_API_KEY) to .env.local
